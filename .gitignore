@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.venv/
+.tmp/
+vite-dev.log
+vite-dev.err.log
+public/icons/
+public/dev-choices/
