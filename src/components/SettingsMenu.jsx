@@ -22,7 +22,10 @@ function SettingsMenu({
       <span className="menu-title">Settings</span>
       <label className="range-label">
         <span>Clock size</span>
-        <span className="range-wrap" style={{ "--range-value": `${rangeValue}%` }}>
+        <span
+          className="range-wrap"
+          style={{ "--range-value": `${rangeValue}%` }}
+        >
           <input
             type="range"
             min="1"

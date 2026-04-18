@@ -136,7 +136,9 @@ function TimeMenu({
             >
               {getPomodoroPhaseLabel(pomodoro.phase)}
             </span>
-            <span className="state-chip">{pomodoro.completedSessions} done</span>
+            <span className="state-chip">
+              {pomodoro.completedSessions} done
+            </span>
           </div>
         </div>
       )}
