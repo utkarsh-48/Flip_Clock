@@ -2,10 +2,13 @@
   "name": "flip-clock",
   "version": "1.0.0",
   "private": true,
+  "license": "UNLICENSED",
+  "author": "Utkarsh Krishna",
+  "homepage": "https://github.com/utkarsh-48",
   "type": "module",
   "scripts": {
     "sync-icons": "node scripts/sync-icons.mjs",
-    "dev": "node scripts/sync-icons.mjs && vite",
+    "dev": "node scripts/sync-icons.mjs && vite --port 3000",
     "build": "node scripts/sync-icons.mjs && vite build",
     "preview": "vite preview"
   },
