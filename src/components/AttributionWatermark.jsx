@@ -16,4 +16,4 @@ function AttributionWatermark() {
   );
 }
 
-export default AttributionWatermark;
+export default React.memo(AttributionWatermark);

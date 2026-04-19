@@ -182,6 +182,9 @@ function App() {
       return undefined;
     }
 
+    // Only schedule hide if the UI is currently visible
+    if (!isUiVisible) return;
+
     const timeout = window.setTimeout(() => {
       setIsUiVisible(false);
     }, 3600);

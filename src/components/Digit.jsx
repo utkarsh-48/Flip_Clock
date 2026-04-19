@@ -66,4 +66,4 @@ function Digit({ value, animationMode }) {
   );
 }
 
-export default Digit;
+export default React.memo(Digit);

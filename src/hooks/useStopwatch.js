@@ -3,51 +3,47 @@ import { splitDigits } from "../utils/time";
 
 export function useStopwatch() {
   const [isRunning, setIsRunning] = useState(false);
-  const [elapsedMs, setElapsedMs] = useState(0);
-  const startedAtRef = useRef(0);
-  const savedElapsedRef = useRef(0);
+  const [elapsedSeconds, setElapsedSeconds] = useState(0);
+  const startTimeRef = useRef(0);
+  const accumulatedSecondsRef = useRef(0);
 
   useEffect(() => {
-    if (!isRunning) return undefined;
+    if (!isRunning) return;
 
-    let animationFrame = 0;
-    const tick = () => {
-      setElapsedMs(
-        savedElapsedRef.current + performance.now() - startedAtRef.current,
-      );
-      animationFrame = window.requestAnimationFrame(tick);
-    };
+    const interval = setInterval(() => {
+      const now = Date.now();
+      const totalSeconds =
+        accumulatedSecondsRef.current + (now - startTimeRef.current) / 1000;
+      setElapsedSeconds(totalSeconds);
+    }, 1000);
 
-    startedAtRef.current = performance.now();
-    animationFrame = window.requestAnimationFrame(tick);
+    startTimeRef.current = Date.now();
 
-    return () => window.cancelAnimationFrame(animationFrame);
+    return () => clearInterval(interval);
   }, [isRunning]);
 
   const start = () => {
     if (isRunning) return;
-    startedAtRef.current = performance.now();
+    startTimeRef.current = Date.now();
     setIsRunning(true);
   };
 
   const pause = () => {
     if (!isRunning) return;
-    const nextElapsed =
-      savedElapsedRef.current + performance.now() - startedAtRef.current;
-    savedElapsedRef.current = nextElapsed;
-    setElapsedMs(nextElapsed);
+    const now = Date.now();
+    accumulatedSecondsRef.current += (now - startTimeRef.current) / 1000;
+    setElapsedSeconds(accumulatedSecondsRef.current);
     setIsRunning(false);
   };
 
   const reset = () => {
-    savedElapsedRef.current = 0;
-    startedAtRef.current = performance.now();
-    setElapsedMs(0);
+    accumulatedSecondsRef.current = 0;
+    setElapsedSeconds(0);
     setIsRunning(false);
   };
 
   return {
-    digits: splitDigits(elapsedMs / 1000),
+    digits: splitDigits(elapsedSeconds),
     isRunning,
     start,
     pause,

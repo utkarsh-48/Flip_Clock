@@ -9,25 +9,26 @@ export function useCountdown(initialSeconds, onComplete) {
   const deadlineRef = useRef(0);
 
   useEffect(() => {
-    if (!isRunning) return undefined;
+    if (!isRunning) return;
 
     const tick = () => {
-      const nextRemaining = Math.max(
+      const now = Date.now();
+      const remainingSeconds = Math.max(
         0,
-        Math.ceil((deadlineRef.current - performance.now()) / 1000),
+        Math.ceil((deadlineRef.current - now) / 1000),
       );
-      setRemaining(nextRemaining);
+      setRemaining(remainingSeconds);
 
-      if (nextRemaining <= 0) {
+      if (remainingSeconds <= 0) {
         setIsRunning(false);
         setIsComplete(true);
         onComplete?.();
       }
     };
 
-    tick();
-    const interval = window.setInterval(tick, 200);
-    return () => window.clearInterval(interval);
+    tick(); // immediate first tick
+    const interval = setInterval(tick, 1000);
+    return () => clearInterval(interval);
   }, [isRunning, onComplete]);
 
   const configure = (nextDuration) => {
@@ -40,16 +41,19 @@ export function useCountdown(initialSeconds, onComplete) {
 
   const start = () => {
     if (remaining <= 0) return;
-    deadlineRef.current = performance.now() + remaining * 1000;
+    deadlineRef.current = Date.now() + remaining * 1000;
     setIsComplete(false);
     setIsRunning(true);
   };
 
   const pause = () => {
     if (!isRunning) return;
-    setRemaining(
-      Math.max(0, Math.ceil((deadlineRef.current - performance.now()) / 1000)),
+    const now = Date.now();
+    const newRemaining = Math.max(
+      0,
+      Math.ceil((deadlineRef.current - now) / 1000),
     );
+    setRemaining(newRemaining);
     setIsRunning(false);
   };
 
