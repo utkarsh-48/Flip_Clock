@@ -1,4 +1,3 @@
-import React from "react";
 import IconButton from "./IconButton";
 import NumberField from "./NumberField";
 

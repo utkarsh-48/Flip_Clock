@@ -14,14 +14,16 @@ export function usePomodoro(
   const [completedSessions, setCompletedSessions] = useState(0);
   const deadlineRef = useRef(0);
 
+  // Update phase and remaining when settings change while not running
   useEffect(() => {
     if (isRunning) return;
     setPhase("work");
     setRemaining(Math.max(1, workMinutes) * 60);
   }, [workMinutes, breakMinutes, longBreakMinutes, isRunning]);
 
+  // Main countdown logic
   useEffect(() => {
-    if (!isRunning) return undefined;
+    if (!isRunning) return;
 
     const switchPhase = () => {
       setPhase((currentPhase) => {
@@ -39,7 +41,7 @@ export function usePomodoro(
             (nextPhase === "long break" ? longBreakMinutes : breakMinutes) * 60;
         }
 
-        deadlineRef.current = performance.now() + nextDuration * 1000;
+        deadlineRef.current = Date.now() + nextDuration * 1000;
         setRemaining(nextDuration);
         onPhaseChange?.(nextPhase);
         return nextPhase;
@@ -47,20 +49,23 @@ export function usePomodoro(
     };
 
     const tick = () => {
-      const nextRemaining = Math.max(
+      const now = Date.now();
+      const remainingSeconds = Math.max(
         0,
-        Math.ceil((deadlineRef.current - performance.now()) / 1000),
+        Math.ceil((deadlineRef.current - now) / 1000),
       );
-      setRemaining(nextRemaining);
+      setRemaining(remainingSeconds);
 
-      if (nextRemaining <= 0) {
+      if (remainingSeconds <= 0) {
         switchPhase();
       }
     };
 
+    // Initial tick to ensure display is correct
     tick();
-    const interval = window.setInterval(tick, 200);
-    return () => window.clearInterval(interval);
+    const interval = setInterval(tick, 1000);
+
+    return () => clearInterval(interval);
   }, [
     breakMinutes,
     completedSessions,
@@ -73,15 +78,18 @@ export function usePomodoro(
 
   const start = () => {
     if (isRunning) return;
-    deadlineRef.current = performance.now() + remaining * 1000;
+    deadlineRef.current = Date.now() + remaining * 1000;
     setIsRunning(true);
   };
 
   const pause = () => {
     if (!isRunning) return;
-    setRemaining(
-      Math.max(1, Math.ceil((deadlineRef.current - performance.now()) / 1000)),
+    const now = Date.now();
+    const newRemaining = Math.max(
+      1,
+      Math.ceil((deadlineRef.current - now) / 1000),
     );
+    setRemaining(newRemaining);
     setIsRunning(false);
   };
 

@@ -1,5 +1,3 @@
-import React from "react";
-
 function NumberField({ label, value, onChange, max, min = 0 }) {
   return (
     <label className="number-label">

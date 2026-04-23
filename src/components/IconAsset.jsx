@@ -1,5 +1,3 @@
-import React from "react";
-
 function IconAsset({ icon, alt }) {
   if (typeof icon === "string" && /\.(png|jpe?g|webp|gif|svg)$/i.test(icon)) {
     return (
