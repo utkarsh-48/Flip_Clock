@@ -1,4 +1,3 @@
-import React from "react";
 import IconAsset from "./IconAsset";
 
 function ModeMenu({ mode, setMode, MODES, MODE_ICONS }) {

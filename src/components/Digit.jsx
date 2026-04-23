@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 function Digit({ value, animationMode }) {
   const [previousValue, setPreviousValue] = useState(value);
@@ -66,4 +66,4 @@ function Digit({ value, animationMode }) {
   );
 }
 
-export default React.memo(Digit);
+export default Digit;

@@ -1,4 +1,3 @@
-import React from "react";
 import { ATTRIBUTION_TEXT, GITHUB_PROFILE_URL } from "../config/branding";
 
 function AttributionWatermark() {
@@ -16,4 +15,4 @@ function AttributionWatermark() {
   );
 }
 
-export default React.memo(AttributionWatermark);
+export default AttributionWatermark;

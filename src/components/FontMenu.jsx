@@ -1,5 +1,3 @@
-import React from "react";
-
 function FontMenu({ font, setFont, FONT_OPTIONS }) {
   return (
     <div className="menu-section">

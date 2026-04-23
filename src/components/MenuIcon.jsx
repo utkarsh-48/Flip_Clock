@@ -1,4 +1,3 @@
-import React from "react";
 import IconAsset from "./IconAsset";
 
 function MenuIcon({ label, icon, active, onClick }) {

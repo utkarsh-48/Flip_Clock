@@ -1,5 +1,3 @@
-import React from "react";
-
 function Separator() {
   return (
     <div className="separator" aria-hidden="true">
@@ -9,4 +7,4 @@ function Separator() {
   );
 }
 
-export default React.memo(Separator);
+export default Separator;

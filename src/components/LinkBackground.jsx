@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 function LinkBackground({ setBackground }) {
   const [url, setUrl] = useState("");
